@@ -132,6 +132,28 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void testCompareSearchPlaceholderText() {
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+        WebElement element = waitForElementPresent(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Cannot find Search input",
+                5
+        );
+
+        String placeholder_text = element.getAttribute("text");
+        Assert.assertEquals(
+                "We see unexpected text",
+                "Search…",
+                placeholder_text
+        );
+    }
+
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
     {
