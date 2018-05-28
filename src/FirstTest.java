@@ -10,6 +10,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import javax.swing.*;
 import java.net.URL;
 
 public class FirstTest {
@@ -128,6 +129,28 @@ public class FirstTest {
                 "We see unexpected title",
                 "Java (programming language)",
                 article_title
+        );
+    }
+
+    @Test
+    public void testCompareSearchPlaceholderText() {
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+        WebElement element = waitForElementPresent(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Cannot find Search input",
+                5
+        );
+
+        String placeholder_text = element.getAttribute("text");
+        Assert.assertEquals(
+                "We see unexpected title",
+                "Search…",
+                placeholder_text
         );
     }
 
