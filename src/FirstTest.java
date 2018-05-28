@@ -11,8 +11,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.swing.*;
-import java.awt.*;
-import java.lang.reflect.Array;
 import java.net.URL;
 
 public class FirstTest {
@@ -156,42 +154,6 @@ public class FirstTest {
         );
     }
 
-    @Test
-    public void testCancelSearchAfterArticlesFound() {
-        waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find 'Search Wikipedia' input",
-                5
-        );
-
-        waitForElementAndSendKeys(
-                By.xpath("//*[contains(@text,'Search…')]"),
-                "country",
-                "Cannot find search input",
-                5
-        );
-
-        waitForElementPresent(
-                By.id("org.wikipedia:id/search_results_container"),
-                "Cannot find search results",
-                5
-        );
-
-        isFewElementsFound(By.id("org.wikipedia:id/page_list_item_container"));
-
-        waitForElementAndClick(
-                By.id("org.wikipedia:id/search_close_btn"),
-                "Cannot find 'X' to cancel search",
-                5
-        );
-
-        waitForElementNotPresent(
-                By.id("org.wikipedia:id/search_results_container"),
-                "Search results are still present",
-                5
-        );
-    }
-
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
     {
@@ -234,11 +196,6 @@ public class FirstTest {
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         element.clear();
         return element;
-    }
-
-    private boolean isFewElementsFound(By by)
-    {
-        return driver.findElements(by).size() > 1;
     }
 
 }
