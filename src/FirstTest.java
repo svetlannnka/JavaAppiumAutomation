@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.swing.*;
 import java.net.URL;
+import java.util.List;
 
 public class FirstTest {
 
@@ -194,6 +195,40 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void testSearchResultsContainSearchWord(){
+        String search_word = "Country";
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                search_word,
+                "Cannot find search input",
+                5
+        );
+
+        waitForElementPresent(
+                By.id("org.wikipedia:id/search_results_container"),
+                "Cannot find search results",
+                5
+        );
+
+        List <WebElement> search_results = getElements(By.id("org.wikipedia:id/page_list_item_title"));
+
+        for (WebElement element: search_results){
+            String article_title = element.getText();
+            Assert.assertEquals(
+                    "Cannot find search word in article title",
+                    true,
+                    isContainsSubstr(article_title, search_word)
+            );
+        }
+    }
+
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
     {
@@ -241,6 +276,16 @@ public class FirstTest {
     private boolean isFewElementsFound(By by)
     {
         return driver.findElements(by).size() > 1;
+    }
+
+    private boolean isContainsSubstr(String str1, String str2)
+    {
+        return str1.toLowerCase().contains(str2.toLowerCase());
+    }
+
+    private List <WebElement> getElements(By by)
+    {
+        return driver.findElements(by);
     }
 
 }
