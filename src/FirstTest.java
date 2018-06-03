@@ -224,8 +224,9 @@ public class FirstTest {
 
         for (WebElement element: search_results){
             String article_title = element.getText();
+            String position = Integer.toString(search_results.indexOf(element));
             Assert.assertEquals(
-                    "Cannot find '" + search_word + "' in article title '" + article_title + "'",
+                    "Cannot find '" + search_word + "' in article title '" + article_title + "'. Article index " + position,
                     true,
                     isContainsSubstr(article_title, search_word)
             );
