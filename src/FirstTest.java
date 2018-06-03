@@ -149,7 +149,7 @@ public class FirstTest {
 
         String placeholder_text = element.getAttribute("text");
         Assert.assertEquals(
-                "We see unexpected text",
+                "We see '" + placeholder_text + "' instead of 'Search…'",
                 "Search…",
                 placeholder_text
         );
@@ -217,12 +217,15 @@ public class FirstTest {
                 5
         );
 
-        List <WebElement> search_results = getElements(By.id("org.wikipedia:id/page_list_item_title"));
+        List <WebElement> search_results = waitAndGetElements(
+                By.id("org.wikipedia:id/page_list_item_title"),
+                "Cannot find any search result list items",
+                5);
 
         for (WebElement element: search_results){
             String article_title = element.getText();
             Assert.assertEquals(
-                    "Cannot find search word in article title",
+                    "Cannot find '" + search_word + "' in article title '" + article_title + "'",
                     true,
                     isContainsSubstr(article_title, search_word)
             );
@@ -283,8 +286,9 @@ public class FirstTest {
         return str1.toLowerCase().contains(str2.toLowerCase());
     }
 
-    private List <WebElement> getElements(By by)
+    private List <WebElement> waitAndGetElements(By by, String error_message, long timeoutInSeconds)
     {
+        waitForElementPresent(by, error_message, timeoutInSeconds);
         return driver.findElements(by);
     }
 
