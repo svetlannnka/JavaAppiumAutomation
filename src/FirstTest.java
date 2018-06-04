@@ -715,6 +715,35 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void testArticleTitlePresent() {
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+        String search_line = "Scala";
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                search_line,
+                "Cannot find search input",
+                5
+        );
+
+        String article_name = "Programming language";
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='" + article_name + "']"),
+                "Cannot find article: " + article_name,
+                5
+        );
+
+        assertElementPresent(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "Title not found for " + search_line + " " + article_name
+        );
+    }
+
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
@@ -827,7 +856,15 @@ public class FirstTest {
     private void assertElementNotPresent(By by, String error_message) {
         int amount_of_elements = getAmountOfElements(by);
         if (amount_of_elements > 0) {
-            String default_message = "An element '" + by.toString() + "' supposed to be not present";
+            String default_message = "An element '" + by.toString() + "' is supposed to be not present.";
+            throw new AssertionError(default_message + " " + error_message);
+        }
+    }
+
+    private void assertElementPresent(By by, String error_message) {
+        int amount_of_elements = getAmountOfElements(by);
+        if (amount_of_elements == 0) {
+            String default_message = "An element '" + by.toString() + "' is supposed to be present.";
             throw new AssertionError(default_message + " " + error_message);
         }
     }
