@@ -455,32 +455,38 @@ public class FirstTest {
 
         driver.rotate(ScreenOrientation.LANDSCAPE);
 
-        String title_after_location = waitForElementAndGetAttribute(
-                By.id("org.wikipedia:id/view_page_title_text"),
-                "text",
-                "Cannot find title of article",
-                15
-        );
+        try {
+            String title_after_location = waitForElementAndGetAttribute(
+                    By.id("org.wikipedia:id/view_page_title_text"),
+                    "text",
+                    "Cannot find title of article",
+                    10
+            );
 
-        Assert.assertEquals(
-                "Article title has been changed after screen rotation",
-                title_before_location,
-                title_after_location
-        );
+            Assert.assertEquals(
+                    "Article title has been changed after screen rotation",
+                    title_before_location,
+                    title_after_location
+            );
+        }
+        catch (Exception e) {
+            driver.rotate(ScreenOrientation.PORTRAIT);
+            throw e;
+        }
 
         driver.rotate(ScreenOrientation.PORTRAIT);
 
         String title_after_second_location = waitForElementAndGetAttribute(
-                By.id("org.wikipedia:id/view_page_title_text"),
-                "text",
-                "Cannot find title of article",
-                15
+                    By.id("org.wikipedia:id/view_page_title_text"),
+                    "text",
+                    "Cannot find title of article",
+                    15
         );
 
         Assert.assertEquals(
-                "Article title has been changed after screen rotation",
-                title_before_location,
-                title_after_second_location
+                    "Article title has been changed after screen rotation",
+                    title_before_location,
+                    title_after_second_location
         );
     }
 
