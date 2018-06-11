@@ -24,8 +24,8 @@ public class SearchPageObject extends MainPageObject {
     }
 
     /* TEMPLATES METHODS */
-    private static String getResultSearchElement(String subscring) {
-        return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", subscring);
+    private static String getResultSearchElement(String substring) {
+        return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
     }
     /* TEMPLATES METHODS */
 
