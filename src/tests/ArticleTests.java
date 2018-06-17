@@ -2,9 +2,11 @@ package tests;
 
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
+import lib.ui.MainPageObject;
 import lib.ui.SearchPageObject;
 import org.junit.Test;
 import org.openqa.selenium.By;
+
 
 public class ArticleTests extends CoreTestCase {
 
@@ -51,8 +53,8 @@ public class ArticleTests extends CoreTestCase {
         SearchPageObject.typeSearchLine(search_line);
         SearchPageObject.clickByArticleWithSubstring("Programming language");
 
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
-        ArticlePageObject.assertElementPresent(
+        MainPageObject MainPageObject = new MainPageObject(driver);
+        MainPageObject.assertElementPresent(
                 By.id("org.wikipedia:id/view_page_title_text"),
                 "Title not found for " + search_line + " " + article_name
         );
