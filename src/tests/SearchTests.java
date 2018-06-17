@@ -80,6 +80,26 @@ public class SearchTests extends CoreTestCase {
     }
 
     @Test
+    public void testSearchResultsContainTitleAndDescription() {
+        String search_word = "Android";
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine(search_word);
+
+        SearchPageObject.waitForElementByTitleAndDescription(
+                "Android",
+                "Wikimedia disambiguation page");
+        SearchPageObject.waitForElementByTitleAndDescription(
+                "Android (operating system)",
+                "An open source operating system for mobile devices created by Google");
+        SearchPageObject.waitForElementByTitleAndDescription(
+                "Android version history",
+                "Wikimedia list article");
+    }
+
+
+    @Test
     public void testAmountOfNotEmptySearch() {
         SearchPageObject SearchPageObject = new SearchPageObject(driver);
         SearchPageObject.initSearchInput();
