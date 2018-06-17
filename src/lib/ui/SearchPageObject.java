@@ -14,7 +14,7 @@ public class SearchPageObject extends MainPageObject {
             SEARCH_INPUT_FIELD = "org.wikipedia:id/search_src_text",
             SEARCH_CANCEL_BUTTON = "org.wikipedia:id/search_close_btn",
             SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='{SUBSTRING}']",
-            SEARCH_RESULT_BY_SUBSTRING_TITLE_DESC_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container' and .//@text='{TILE_SUBSTRING}' and .//@text='{DESC_SUBSTRING}']",
+            SEARCH_RESULT_BY_SUBSTRING_TITLE_DESC_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_container' and .//@text='{TITLE_SUBSTRING}' and .//@text='{DESC_SUBSTRING}']",
             SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@resource-id='org.wikipedia:id/page_list_item_container']",
             SEARCH_RESULT_TITLES = "org.wikipedia:id/page_list_item_title",
             SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results found']",
@@ -31,7 +31,7 @@ public class SearchPageObject extends MainPageObject {
 
     private static String getResultSearchByTitleAndDescription(String title_substring, String desc_substring) {
         return SEARCH_RESULT_BY_SUBSTRING_TITLE_DESC_TPL
-                .replace("{TILE_SUBSTRING}", title_substring)
+                .replace("{TITLE_SUBSTRING}", title_substring)
                 .replace("{DESC_SUBSTRING}", desc_substring);
     }
     /* TEMPLATES METHODS */
