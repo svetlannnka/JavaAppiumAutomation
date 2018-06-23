@@ -1,14 +1,14 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.By;
+import lib.Platform;
 
-public class MyListsPageObject extends MainPageObject {
+abstract public class MyListsPageObject extends MainPageObject {
 
-    private static final String
-            FOLDER_NAME_TPL = "//android.widget.TextView[@text='{SUBSTRING}']",
-            ARTICLE_NAME_TPL = "//*[@text='{SUBSTRING}']",
-            ARTICLE_ELEMENT = "org.wikipedia:id/page_list_item_container";
+    protected static String
+            FOLDER_NAME_TPL,
+            ARTICLE_NAME_TPL,
+            ARTICLE_ELEMENT;
 
     public MyListsPageObject(AppiumDriver driver) {
         super(driver);
@@ -26,22 +26,25 @@ public class MyListsPageObject extends MainPageObject {
 
     public void clickFolderName(String substring) {
         String folder_name_xpath = getFolderNameElement(substring);
-        this.waitForElementAndClick(By.xpath(folder_name_xpath), "Cannot find '" + substring + "' folder", 10);
+        this.waitForElementAndClick(folder_name_xpath, "Cannot find '" + substring + "' folder", 10);
     }
 
     public void swipeArticleToRemove(String substring) {
         String article_name_xpath = getArticleElement(substring);
-        this.swipeElementToLeft(By.xpath(article_name_xpath), "Cannot find saved article");
-        this.waitForElementNotPresent(By.xpath(article_name_xpath), "Cannot delete saved article", 5);
+        this.swipeElementToLeft(article_name_xpath, "Cannot find saved article");
+        if (Platform.getInstance().isIOS()) {
+            this.clickElementToTheRightUpperCorner(article_name_xpath, "Cannot find saved article");
+        }
+        this.waitForElementNotPresent(article_name_xpath, "Cannot delete saved article", 5);
     }
 
     public void clickArticleName(String substring) {
         String article_name_xpath = getArticleElement(substring);
-        this.waitForElementAndClick(By.xpath(article_name_xpath), "Cannot tap on a saved article title", 15);
+        this.waitForElementAndClick(article_name_xpath, "Cannot tap on a saved article title", 15);
     }
 
     public int getAmountOfListedArticles() {
-        this.waitForElementPresent(By.id(ARTICLE_ELEMENT), "Cannot find saved articles", 15);
-        return this.getAmountOfElements(By.id(ARTICLE_ELEMENT));
+        this.waitForElementPresent(ARTICLE_ELEMENT, "Cannot find saved articles", 15);
+        return this.getAmountOfElements(ARTICLE_ELEMENT);
     }
 }
