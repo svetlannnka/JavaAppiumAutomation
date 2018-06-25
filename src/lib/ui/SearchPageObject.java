@@ -64,7 +64,7 @@ abstract public class SearchPageObject extends MainPageObject {
     }
 
     public void waitAndClickCLearSearchButton() {
-        this.waitForElementAndClick(CLEAR_SEARCH_BTN,"Cannot click clear search button",10);
+        this.waitForElementAndClick(CLEAR_SEARCH_BTN, "Cannot click clear search button", 10);
     }
 
     public void waitForSearchResult(String substring) {
@@ -73,8 +73,10 @@ abstract public class SearchPageObject extends MainPageObject {
     }
 
     public void waitForElementByTitleAndDescription(String title, String description) {
-        String search_result_xpath = getResultSearchByTitleAndDescription(title, description);
-        this.waitForElementPresent(search_result_xpath, "Cannot find search result with title '" + title + "' and desc '" + description + "'", 15);
+        String search_result_locator = getResultSearchByTitleAndDescription(title, description);
+        this.waitForElementPresent(search_result_locator,
+                "Cannot find search result with title '" + title + "' and desc '" + description + "', locator: " + search_result_locator,
+                15);
     }
 
     public void clickByArticleWithSubstring(String substring) {
@@ -100,7 +102,7 @@ abstract public class SearchPageObject extends MainPageObject {
         if (Platform.getInstance().isAndroid()) {
             this.assertElementNotPresent(SEARCH_RESULT_ELEMENT, "We supposed not to find any results");
         } else {
-            Assert.assertEquals(this.getAmountOfElements(SEARCH_RESULT_ELEMENT),1);
+            Assert.assertEquals(this.getAmountOfElements(SEARCH_RESULT_ELEMENT), 1);
         }
     }
 
