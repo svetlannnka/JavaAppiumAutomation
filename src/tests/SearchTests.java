@@ -1,6 +1,7 @@
 package tests;
 
 import lib.CoreTestCase;
+import lib.Platform;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
@@ -31,6 +32,9 @@ public class SearchTests extends CoreTestCase {
 
     @Test
     public void testCompareSearchPlaceholderText() {
+        if (Platform.getInstance().isIOS()) {
+            return;
+        }
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();
@@ -62,7 +66,7 @@ public class SearchTests extends CoreTestCase {
 
     @Test
     public void testSearchResultsContainSearchWord() {
-        String search_word = "Country";
+        String search_word = "Android";
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();

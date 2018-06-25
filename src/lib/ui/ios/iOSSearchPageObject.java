@@ -12,7 +12,7 @@ public class iOSSearchPageObject extends SearchPageObject {
         // Cannot find in WebView by id or name, using normalize-space
         SEARCH_RESULT_BY_SUBSTRING_TITLE_DESC_TPL = "xpath://*[normalize-space(@name)='{TITLE_SUBSTRING} {DESC_SUBSTRING}']";
         SEARCH_RESULT_ELEMENT = "xpath://XCUIElementTypeLink";
-        SEARCH_RESULT_TITLES = "xpath://XCUIElementTypeLink";
+        SEARCH_RESULT_TITLES = "xpath://XCUIElementTypeCell[@visible='true']/XCUIElementTypeLink";
         SEARCH_EMPTY_RESULT_ELEMENT = "xpath://XCUIElementTypeStaticText[@name='No results found']";
         CLEAR_SEARCH_BTN = "id:clear mini";
     }

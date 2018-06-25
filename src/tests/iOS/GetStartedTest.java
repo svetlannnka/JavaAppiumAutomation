@@ -1,4 +1,4 @@
-package tests;
+package tests.iOS;
 
 import lib.CoreTestCase;
 import lib.Platform;
@@ -6,6 +6,11 @@ import lib.ui.WelcomePageObject;
 import org.junit.Test;
 
 public class GetStartedTest extends CoreTestCase {
+
+    protected void setUp() throws Exception {
+        driver = Platform.getInstance().getDriver();
+        this.rotateScreenPortrait();
+    }
 
     @Test
     public void testPassThroughWelcome() {
