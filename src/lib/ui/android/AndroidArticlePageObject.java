@@ -6,7 +6,8 @@ import lib.ui.ArticlePageObject;
 public class AndroidArticlePageObject extends ArticlePageObject {
 
     static {
-        TITLE = "id:org.wikipedia:id/view_page_title_text";
+        TITLE ="id:org.wikipedia:id/view_page_title_text";
+        TITLE_TPL = "xpath://*[contains(@text,'{TITLE}') and @resource-id='org.wikipedia:id/view_page_title_text']";
         FOOTER_ELEMENT = "xpath://*[@text='View page in browser']";
         MORE_OPTIONS_BUTTON = "xpath://android.widget.ImageView[@content-desc='More options']";
         ADD_TO_READING_LIST = "xpath://*[@text='Add to reading list']";
@@ -18,6 +19,7 @@ public class AndroidArticlePageObject extends ArticlePageObject {
         PAGE_TOOLBAR = "id:org.wikipedia:id/page_toolbar";
         FOLDER_NAME_INPUT = "id:org.wikipedia:id/text_input";
         FOLDER_NAME_SELECT_TPL = "xpath://*[@text='{SUBSTRING}']";
+        REMOVE_FROM_LIST = "xpath://*[contains(@text,'Remove from')]";
     }
 
     public AndroidArticlePageObject(AppiumDriver driver) {

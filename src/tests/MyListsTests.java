@@ -49,7 +49,8 @@ public class MyListsTests extends CoreTestCase {
     @Test
     public void testSaveTwoArticlesToFolder() {
         String name_of_folder = "Learning programming";
-        String article_name = "Java (programming language)";
+        String article_name1 = "Java (programming language)";
+        String article_name2 = "Scala (programming language)";
 
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
@@ -57,49 +58,58 @@ public class MyListsTests extends CoreTestCase {
         SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        ArticlePageObject.waitForTitleElement();
-        ArticlePageObject.clickMoreOptions();
-        ArticlePageObject.clickAddToReadingList();
-        ArticlePageObject.clickGotItButton();
-        ArticlePageObject.createArticlesFolder(name_of_folder);
+        ArticlePageObject.waitForTitleElementByTitle(article_name1);
+        if (Platform.getInstance().isAndroid()) {
+            ArticlePageObject.addArticleToMyList(name_of_folder);
+        } else {
+            ArticlePageObject.addArticlesToMySaved();
+        }
+
         ArticlePageObject.closeArticle();
 
         SearchPageObject.initSearchInput();
+        if (Platform.getInstance().isIOS()) {
+            SearchPageObject.waitAndClickCLearSearchButton();
+        }
         SearchPageObject.typeSearchLine("Scala");
         SearchPageObject.clickByArticleWithSubstring("Programming language");
 
-        ArticlePageObject.waitForTitleElement();
-        ArticlePageObject.clickMoreOptions();
-        ArticlePageObject.clickAddToReadingList();
-        ArticlePageObject.clickOnFolderName(name_of_folder);
+        ArticlePageObject.waitForTitleElementByTitle(article_name2);
+        if (Platform.getInstance().isAndroid()) {
+            ArticlePageObject.clickMoreOptions();
+            ArticlePageObject.clickAddToReadingList();
+            ArticlePageObject.clickOnFolderName(name_of_folder);
+            // added waitForNavBarLoad for menu and closing X to make the test stable before click
+            ArticlePageObject.waitForNavBarLoad();
+        } else {
+            ArticlePageObject.addArticlesToMySaved();
+        }
 
-        // added waitForNavBarLoad for menu and closing X to make the test stable before click
-        ArticlePageObject.waitForNavBarLoad();
         ArticlePageObject.closeArticle();
         NavigationUI NavigationUI = NavigationUIFactory.get(driver);
         NavigationUI.clickMyLists();
 
         MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
-        MyListsPageObject.clickFolderName(name_of_folder);
-        int amount_of_articles_before = MyListsPageObject.getAmountOfListedArticles();
-        MyListsPageObject.swipeArticleToRemove(article_name);
-        int amount_of_articles_after = MyListsPageObject.getAmountOfListedArticles();
+        if (Platform.getInstance().isAndroid()) {
+            MyListsPageObject.clickFolderName(name_of_folder);
+        }
 
+        int amount_of_articles_before = MyListsPageObject.getAmountOfListedArticles();
+        MyListsPageObject.swipeArticleToRemove(article_name2);
+        int amount_of_articles_after = MyListsPageObject.getAmountOfListedArticles();
         assertEquals(
                 "We found wrong amount of articles on the list",
                 amount_of_articles_before - 1,
                 amount_of_articles_after
         );
 
-        String expected_article_title = "Scala (programming language)";
-        MyListsPageObject.clickArticleName(expected_article_title);
+        MyListsPageObject.clickArticleName(article_name1);
         String actual_title = ArticlePageObject.getArticleTitle();
-
         assertEquals(
-                "Article title has been changed after screen rotation",
-                expected_article_title,
+                "Article title does not match",
+                article_name1,
                 actual_title
         );
+        ArticlePageObject.checkArticleSaved();
     }
-
 }

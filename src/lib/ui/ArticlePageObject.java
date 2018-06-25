@@ -8,6 +8,7 @@ abstract public class ArticlePageObject extends MainPageObject {
 
     protected static String
             TITLE,
+            TITLE_TPL,
             FOOTER_ELEMENT,
             MORE_OPTIONS_BUTTON,
             ADD_TO_READING_LIST,
@@ -18,11 +19,17 @@ abstract public class ArticlePageObject extends MainPageObject {
             TABS_BUTTON,
             PAGE_TOOLBAR,
             FOLDER_NAME_INPUT,
-            FOLDER_NAME_SELECT_TPL;
+            FOLDER_NAME_SELECT_TPL,
+            ARTICLE_SAVED,
+            REMOVE_FROM_LIST;
 
     /* TEMPLATES METHODS */
     private static String getFolderElement(String substring) {
         return FOLDER_NAME_SELECT_TPL.replace("{SUBSTRING}", substring);
+    }
+
+    private static String getTitleElement(String substring) {
+        return TITLE_TPL.replace("{TITLE}", substring);
     }
     /* TEMPLATES METHODS */
 
@@ -32,6 +39,11 @@ abstract public class ArticlePageObject extends MainPageObject {
 
     public WebElement waitForTitleElement() {
         return this.waitForElementPresent(TITLE, "Cannot find article title on the page", 15);
+    }
+
+    public WebElement waitForTitleElementByTitle(String substring) {
+        String title = getTitleElement(substring);
+        return this.waitForElementPresent(title, "Cannot find article title on the page", 15);
     }
 
     public String getArticleTitle() {
@@ -99,5 +111,14 @@ abstract public class ArticlePageObject extends MainPageObject {
         this.waitForElementPresent(SEARCH_BUTTON, "Cannot find search icon", 5);
         this.waitForElementPresent(TABS_BUTTON, "Cannot find tabs icon", 5);
         this.waitForElementPresent(PAGE_TOOLBAR, "Cannot find top nav menu", 10);
+    }
+
+    public void checkArticleSaved() {
+        if (lib.Platform.getInstance().isIOS()) {
+            this.waitForElementPresent(ARTICLE_SAVED, "Article not saved");
+        } else {
+            this.waitForElementAndClick(ADD_TO_READING_LIST, "Cannot click Add to reading list",5);
+            this.waitForElementPresent(REMOVE_FROM_LIST, "Cannot find Remove Article option", 5);
+        }
     }
 }
